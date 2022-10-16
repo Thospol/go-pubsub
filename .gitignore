@@ -1,0 +1,6 @@
+.vscode
+/.idea/
+*.csv
+/*.html
+/*.xml
+/docs
