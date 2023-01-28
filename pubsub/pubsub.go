@@ -15,7 +15,7 @@ import (
 var (
 	ctx       = context.Background()
 	mu        = sync.Mutex{}
-	c         = &pubsub.Client{}
+	C         = &pubsub.Client{}
 	OnMessage = func(ctx context.Context, msg *pubsub.Message) {
 		mu.Lock()
 		logrus.Infof("receive message: %s", string(msg.Data))
@@ -48,7 +48,7 @@ func NewClient(filename string) error {
 	}
 
 	value := gjson.Get(string(content), "project_id")
-	c, err = pubsub.NewClient(ctx, value.String(), opt)
+	C, err = pubsub.NewClient(ctx, value.String(), opt)
 	if err != nil {
 		return err
 	}
@@ -58,7 +58,7 @@ func NewClient(filename string) error {
 
 // GetClient  google cloud pub/sub get client
 func GetClient() Client {
-	return &client{c}
+	return &client{C}
 }
 
 // Publish publish message to topic

@@ -2,8 +2,9 @@ package main
 
 import (
 	"context"
-	ps "github.com/Thospol/go-pubsub/pubsub"
 	"sync"
+
+	ps "github.com/Thospol/go-pubsub/pubsub"
 
 	"cloud.google.com/go/pubsub"
 	jsoniter "github.com/json-iterator/go"
@@ -56,7 +57,7 @@ type Data struct {
 // Subscribe subscribe
 func (s *service) Subscribe() error {
 	var (
-		id = "sub-pss-approves"
+		id = "health-sub"
 	)
 	onMessage := func(ctx context.Context, msg *pubsub.Message) {
 		s.mu.Lock()
@@ -75,7 +76,8 @@ func (s *service) Subscribe() error {
 		default:
 			// TODO: ...
 		}
-		msg.Ack()
+		// msg.Nack() // call this method when process error pub/sub will to retry immediately for send message again
+		msg.Ack() // call this method when process success
 	}
 
 	err := s.pubsubClient.Subscribe(id, onMessage)

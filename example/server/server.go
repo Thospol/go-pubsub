@@ -2,6 +2,7 @@ package main
 
 import (
 	"context"
+
 	cps "github.com/Thospol/go-pubsub/pubsub"
 
 	"cloud.google.com/go/pubsub"
@@ -19,7 +20,7 @@ func main() {
 	}
 
 	client := cps.GetClient()
-	id := "pss-approves"
+	id := "health"
 	topic := client.GetTopic(id)
 	res := topic.Publish(ctx, &pubsub.Message{
 		Data: []byte(`{
@@ -29,8 +30,8 @@ func main() {
 			  "ref_id": 1,
 			  "document_id": 1,
 			  "approve_status": {
-				"name": "รออนุมัติ",
-				"value": 1
+				"name": "ไม่อนุมัติ",
+				"value": 3
 			  }
 			}
 		  }`),
